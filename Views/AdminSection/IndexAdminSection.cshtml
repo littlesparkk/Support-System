@@ -1,0 +1,251 @@
+﻿@model Asp.NETMVCCRUD.Models.AdminSection
+@{
+    //ViewBag.Title = "User Management";
+}
+
+<link href="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<h1>Support List</h1>
+
+@*<a class="btn btn-success" style="margin-bottom:10px" onclick="PopupForm('@Url.Action("AddOrEditAdminSection","AdminSection")')"><i class="fa fa-plus"></i> Add New Suggestion</a>*@
+@*<a class="btn btn-success" style="margin-bottom:10px" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Add New Suggestion</a>*@
+<a class="btn btn-success" style="margin-bottom:10px" href="/AdminSection/testForm"><i class="fa fa-plus"></i> Add New Suggestion</a>
+@*<button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" style="margin-bottom:10px"><i class="fa fa-plus"></i>
+        Add New Suggestion
+    </button>*@
+<table id="adminTable" class="display">
+    <thead>
+        <tr>
+            <th>Ticket No</th>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Category</th>
+            <th>Severity</th>
+            <th>Priority</th>
+            <th>Raised By</th>
+            <th>Raised On</th>
+            <th>Due On</th>
+            <th>Resolved On</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+</table>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                <h2>Edit Form</h2>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("AddOrEditAdminSection", "AdminSection", FormMethod.Post, new { onsubmit = "return SubmitForm(this)" }))
+                {
+                    @Html.HiddenFor(model => model.AdminSectionId)
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Ticket_No, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Ticket_No, new { htmlAttributes = new { @clas = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Ticket_No)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Title, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @clas = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Title)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Status, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @clas = "form-control" } })
+
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Category, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Category, new { htmlAttributes = new { @clas = "form-control" } })
+
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Severity, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Severity, new { htmlAttributes = new { @clas = "form-control" } })
+
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Priority, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Priority, new { htmlAttributes = new { @clas = "form-control" } })
+
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Raised_By, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Raised_By, new { htmlAttributes = new { @clas = "form-control" } })
+
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Raised_On, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Raised_On, new { htmlAttributes = new { @clas = "form-control" } })
+
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Due_On, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Due_On, new { htmlAttributes = new { @clas = "form-control" } })
+
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Resolved_On, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Resolved_On, new { htmlAttributes = new { @clas = "form-control" } })
+
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Submit" class="btn btn-primary" />
+                        <input type="reset" value="Reset" class="btn btn-warning" />
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<link href="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+
+
+    <script>
+        var Popup,dataTable
+        $(document).ready(function () {
+
+
+            dataTable = $("#adminTable").DataTable({
+                "ajax": {
+                    "url": "/AdminSection/GetAdminSectionData",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "Ticket_No" },
+                    { "data": "Title" },
+                    { "data": "Status" },
+                    { "data": "Category" },
+                    { "data": "Severity" },
+                    { "data": "Priority" },
+                    { "data": "Raised_By" },
+                    { "data": "Raised_On" },
+                    { "data": "Due_On" },
+                    { "data": "Resolved_On" },
+
+                    {
+                        "data": "AdminSectionId", "render": function (data) {
+                            debugger
+                            //Delete
+                            return "<a class='btn btn-info btn-sm' href='/AdminSection/AddOrEditAdminSection/?id=" + data + "')><i class='fa fa-edit'></i> Edit</a><a class='btn btn-danger btn-sm' style='margin-left:5px' onclick=Delete(" + data + ")><i class='fa fa-trash'></i> Delete</a>"
+
+
+
+
+                            //return "<a class='btn btn-info btn-sm'><i class='fa fa-edit'></i> Edit</a><a class='btn btn-danger btn-sm' style='margin-left:5px'><i class='fa fa-trash'></i> Delete</a>"
+
+                            //Update
+                            //return "<a class='btn btn-info btn-sm' onclick=PopupForm('@Url.Action("AddOrEdit","Employee")/" + data + "')><i class='fa fa-edit'></i> Edit</a><a class='btn btn-danger btn-sm' style='margin-left:5px'><i class='fa fa-trash'></i> Delete</a>"
+
+                        },
+
+                        "orderable": false,
+                        "searchUrlble": false,
+                            "width":"150px"
+                    }
+                ],
+                "language": {
+                    "emptyTable": "No data found,Please click on <b>Add New Suggestion</b> Button to add new suggestion"
+                }
+            });
+        });
+
+        //function PopupForm(url) {
+        //    var formDiv = $('<div/>');
+        //    $.get(url)
+        //        .done(function (response) {
+        //            formDiv.html(response);
+
+        //            Popup = formDiv.dialog({
+        //                autoOpen: true,
+        //                resizable: false,
+        //                title: 'Fill Section Details',
+        //                height: 400,
+        //                width: 350,
+        //                close: function () {
+        //                    Popup.dialog('destroy').remove();
+        //                }
+        //            });
+        //        });
+        //}
+        function PopupForm(url) {
+            var formDiv = $('<div/>');
+            $.get(url)
+                .done(function (response) {
+                    formDiv.html(response);
+
+                    Popup = formDiv.dialog({
+                        autoOpen: true,
+                        resizable: false,
+                        title: 'Fill Section Details',
+                        height: 400,
+                        width: 350,
+                        close: function () {
+                            Popup.dialog('destroy').remove();
+                        }
+                    });
+                });
+        }
+
+        function SubmitForm(form) {
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        if (data.success) {
+                            Popup.dialog('close');
+                            dataTable.ajax.reload();
+
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+                        }
+                    }
+                });
+            }
+            return false;
+        }
+        function Delete(id) {
+            if (confirm("Are You Sure You Want To Delete This System Section?")) {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Delete","AdminSection")/' + id,
+                    success: function (data) {
+                        if (data.success) {
+                            dataTable.ajax.reload();
+
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+                        }
+                    }
+                })
+            }
+        }
+    </script>
+}
+

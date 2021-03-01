@@ -1,0 +1,129 @@
+﻿
+@{
+    ViewBag.Title = "Employee List";
+}
+
+<h2>Employee CRUD Operations</h2>
+
+<a class="btn btn-success" style="margin-bottom:10px" onclick="PopupForm('@Url.Action("AddOrEdit","Employee")')"><i class="fa fa-plus"></i> Add New</a>
+<table id="employeeTable" class="display">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Office</th>
+            <th>Age</th>
+            <th>Salary</th>
+            <th></th>
+        </tr>
+    </thead>
+</table>
+
+<link href="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    
+
+    <script>
+        var Popup,dataTable
+        $(document).ready(function () {
+            dataTable = $("#employeeTable").DataTable({
+                "ajax": {
+                    "url": "/Employee/GetData",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "Name" },
+                    { "data": "Position" },
+                    { "data": "Office" },
+                    { "data": "Age" },
+                    { "data": "Salary" },
+                    {
+                        "data": "EmployeeId", "render": function (data) {
+                            
+                            //Delete
+                            return "<a class='btn btn-info btn-sm' onclick=PopupForm('@Url.Action("AddOrEdit","Employee")/"+ data + "')><i class='fa fa-edit'></i> Edit</a><a class='btn btn-danger btn-sm' style='margin-left:5px' onclick=Delete(" + data + ")><i class='fa fa-trash'></i> Delete</a>"
+
+                            //return "<a class='btn btn-info btn-sm'><i class='fa fa-edit'></i> Edit</a><a class='btn btn-danger btn-sm' style='margin-left:5px'><i class='fa fa-trash'></i> Delete</a>"
+
+                            //Update
+                            //return "<a class='btn btn-info btn-sm' onclick=PopupForm('@Url.Action("AddOrEddit","Employee")/" + data + "')><i class='fa fa-edit'></i> Edit</a><a class='btn btn-danger btn-sm' style='margin-left:5px'><i class='fa fa-trash'></i> Delete</a>"
+
+                    },
+                        "orderable": false,
+                        "searchUrlble": false,
+                            "width":"150px"
+                    }
+                ],
+                "language": {
+                    "emptyTable": "No data found,Please click on <b>Add New</b> Button"
+                }
+            });
+        });
+
+        function PopupForm(url) {
+            var formDiv = $('<div/>');
+            $.get(url)
+                .done(function (response) {
+                    formDiv.html(response);
+
+                    Popup = formDiv.dialog({
+                        autoOpen: true,
+                        resizable: false,
+                        title: 'Fill Employee Details',
+                        height: 400,
+                        width: 350,
+                        close: function () {
+                            Popup.dialog('destroy').remove();
+                        }
+                    });
+                });
+        }
+
+        function SubmitForm(form) {
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        if (data.success) {
+                            Popup.dialog('close');
+                            dataTable.ajax.reload();
+
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+                        }
+                    }
+                });
+            }
+            return false;
+        }
+        function Delete(id) {
+            if (confirm("Are You Sure You Want To Delete This Employee Record?")) {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Delete","Employee")/' + id,
+                    success: function (data) {
+                        if (data.success) {
+                            dataTable.ajax.reload();
+
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+                        }
+                    }
+                })
+            }
+        }
+    </script>
+}
+

@@ -1,0 +1,328 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MvcCRUDDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AdminSection">
+          <Key>
+            <PropertyRef Name="AdminSectionId" />
+          </Key>
+          <Property Name="AdminSectionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ticket No" Type="varchar" MaxLength="50" />
+          <Property Name="Title" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+          <Property Name="Category" Type="varchar" MaxLength="50" />
+          <Property Name="Severity" Type="varchar" MaxLength="50" />
+          <Property Name="Priority" Type="varchar" MaxLength="50" />
+          <Property Name="Raised By" Type="varchar" MaxLength="50" />
+          <Property Name="Raised On" Type="date" />
+          <Property Name="Due On" Type="date" />
+          <Property Name="Resolved On" Type="date" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Position" Type="varchar" MaxLength="50" />
+          <Property Name="Office" Type="varchar" MaxLength="50" />
+          <Property Name="Age" Type="int" />
+          <Property Name="Salary" Type="int" />
+        </EntityType>
+        <EntityType Name="RegisterUser">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SupportStat">
+          <Key>
+            <PropertyRef Name="SupportStatusId" />
+          </Key>
+          <Property Name="SupportStatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SystemSection">
+          <Key>
+            <PropertyRef Name="SystemSectionId" />
+          </Key>
+          <Property Name="SystemSectionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="UserComment">
+          <Key>
+            <PropertyRef Name="CommentId" />
+          </Key>
+          <Property Name="CommentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CommentText" Type="varchar" MaxLength="100" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="AdminSectionId" Type="int" Nullable="false" />
+          <Property Name="ReplyCommentId" Type="int" />
+        </EntityType>
+        <EntityType Name="UserManagement">
+          <Key>
+            <PropertyRef Name="UserManagementId" />
+          </Key>
+          <Property Name="UserManagementId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Address" Type="varchar" MaxLength="50" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
+          <Property Name="Country" Type="varchar" MaxLength="50" />
+          <Property Name="Phone" Type="varchar" MaxLength="50" />
+          <Property Name="Role" Type="varchar" MaxLength="50" />
+          <Property Name="Activity" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK_UserComment_UserComment">
+          <End Role="AdminSection" Type="Self.AdminSection" Multiplicity="1" />
+          <End Role="UserComment" Type="Self.UserComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AdminSection">
+              <PropertyRef Name="AdminSectionId" />
+            </Principal>
+            <Dependent Role="UserComment">
+              <PropertyRef Name="AdminSectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MvcCRUDDBModelStoreContainer">
+          <EntitySet Name="AdminSection" EntityType="Self.AdminSection" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RegisterUser" EntityType="Self.RegisterUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SupportStat" EntityType="Self.SupportStat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemSection" EntityType="Self.SystemSection" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserComment" EntityType="Self.UserComment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserManagement" EntityType="Self.UserManagement" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_UserComment_UserComment" Association="Self.FK_UserComment_UserComment">
+            <End Role="AdminSection" EntitySet="AdminSection" />
+            <End Role="UserComment" EntitySet="UserComment" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MvcCRUDDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DBModel" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AdminSections" EntityType="MvcCRUDDBModel.AdminSection" />
+          <EntitySet Name="Employees" EntityType="MvcCRUDDBModel.Employee" />
+          <EntitySet Name="RegisterUsers" EntityType="MvcCRUDDBModel.RegisterUser" />
+          <EntitySet Name="SupportStats" EntityType="MvcCRUDDBModel.SupportStat" />
+          <EntitySet Name="SystemSections" EntityType="MvcCRUDDBModel.SystemSection" />
+          <EntitySet Name="UserComments" EntityType="MvcCRUDDBModel.UserComment" />
+          <EntitySet Name="UserManagements" EntityType="MvcCRUDDBModel.UserManagement" />
+          <AssociationSet Name="FK_UserComment_UserComment" Association="MvcCRUDDBModel.FK_UserComment_UserComment">
+            <End Role="AdminSection" EntitySet="AdminSections" />
+            <End Role="UserComment" EntitySet="UserComments" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AdminSection">
+          <Key>
+            <PropertyRef Name="AdminSectionId" />
+          </Key>
+          <Property Name="AdminSectionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ticket_No" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Severity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Priority" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Raised_By" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Raised_On" Type="DateTime" Precision="0" />
+          <Property Name="Due_On" Type="DateTime" Precision="0" />
+          <Property Name="Resolved_On" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="UserComments" Relationship="MvcCRUDDBModel.FK_UserComment_UserComment" FromRole="AdminSection" ToRole="UserComment" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Position" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Office" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="Salary" Type="Int32" />
+        </EntityType>
+        <EntityType Name="RegisterUser">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SupportStat">
+          <Key>
+            <PropertyRef Name="SupportStatusId" />
+          </Key>
+          <Property Name="SupportStatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SystemSection">
+          <Key>
+            <PropertyRef Name="SystemSectionId" />
+          </Key>
+          <Property Name="SystemSectionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="UserComment">
+          <Key>
+            <PropertyRef Name="CommentId" />
+          </Key>
+          <Property Name="CommentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CommentText" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="AdminSectionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AdminSection" Relationship="MvcCRUDDBModel.FK_UserComment_UserComment" FromRole="UserComment" ToRole="AdminSection" />
+          <Property Name="ReplyCommentId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="UserManagement">
+          <Key>
+            <PropertyRef Name="UserManagementId" />
+          </Key>
+          <Property Name="UserManagementId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Activity" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_UserComment_UserComment">
+          <End Type="MvcCRUDDBModel.AdminSection" Role="AdminSection" Multiplicity="1" />
+          <End Type="MvcCRUDDBModel.UserComment" Role="UserComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AdminSection">
+              <PropertyRef Name="AdminSectionId" />
+            </Principal>
+            <Dependent Role="UserComment">
+              <PropertyRef Name="AdminSectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MvcCRUDDBModelStoreContainer" CdmEntityContainer="DBModel">
+          <EntitySetMapping Name="AdminSections">
+            <EntityTypeMapping TypeName="MvcCRUDDBModel.AdminSection">
+              <MappingFragment StoreEntitySet="AdminSection">
+                <ScalarProperty Name="Resolved_On" ColumnName="Resolved On" />
+                <ScalarProperty Name="Due_On" ColumnName="Due On" />
+                <ScalarProperty Name="Raised_On" ColumnName="Raised On" />
+                <ScalarProperty Name="Raised_By" ColumnName="Raised By" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="Severity" ColumnName="Severity" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Ticket_No" ColumnName="Ticket No" />
+                <ScalarProperty Name="AdminSectionId" ColumnName="AdminSectionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="MvcCRUDDBModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Office" ColumnName="Office" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegisterUsers">
+            <EntityTypeMapping TypeName="MvcCRUDDBModel.RegisterUser">
+              <MappingFragment StoreEntitySet="RegisterUser">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SupportStats">
+            <EntityTypeMapping TypeName="MvcCRUDDBModel.SupportStat">
+              <MappingFragment StoreEntitySet="SupportStat">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SupportStatusId" ColumnName="SupportStatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemSections">
+            <EntityTypeMapping TypeName="MvcCRUDDBModel.SystemSection">
+              <MappingFragment StoreEntitySet="SystemSection">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SystemSectionId" ColumnName="SystemSectionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserComments">
+            <EntityTypeMapping TypeName="MvcCRUDDBModel.UserComment">
+              <MappingFragment StoreEntitySet="UserComment">
+                <ScalarProperty Name="ReplyCommentId" ColumnName="ReplyCommentId" />
+                <ScalarProperty Name="AdminSectionId" ColumnName="AdminSectionId" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CommentText" ColumnName="CommentText" />
+                <ScalarProperty Name="CommentId" ColumnName="CommentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserManagements">
+            <EntityTypeMapping TypeName="MvcCRUDDBModel.UserManagement">
+              <MappingFragment StoreEntitySet="UserManagement">
+                <ScalarProperty Name="Activity" ColumnName="Activity" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserManagementId" ColumnName="UserManagementId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

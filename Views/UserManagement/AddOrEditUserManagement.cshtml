@@ -1,0 +1,77 @@
+﻿@model Asp.NETMVCCRUD.Models.UserManagement
+
+
+<link href="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<style>
+    .form-group{
+        width:300px;
+    }
+</style>
+
+@section scripts
+    {
+
+    <script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+}
+
+<div class="row">
+
+    @using (Html.BeginForm("AddOrEditUserManagement", "UserManagement", FormMethod.Post, new { onsubmit = "return SubmitForm(this)" }))
+    {
+
+        <div style="padding-left:20px">
+            <h5>Edit Form</h5>
+            @Html.HiddenFor(model => model.UserManagementId)
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Address, new { @class = "control-label" })
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.City, new { @class = "control-label" })
+                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Country, new { @class = "control-label" })
+                @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
+
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Phone, new { @class = "control-label" })
+                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Role, new { @class = "control-label" })
+                @Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control" } })
+
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Activity, new { @class = "control-label" })
+                @Html.EditorFor(model => model.Activity, new { htmlAttributes = new { @class = "form-control" } })
+
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+                <input type="reset" value="Reset" class="btn btn-warning" />
+            </div>
+        </div>
+
+    }
+
+    <div class="col-1"></div>
+</div>
+    
+<script src="~/Scripts/jquery-3.0.0.min.js"></script>
+
+ 
+
+
+

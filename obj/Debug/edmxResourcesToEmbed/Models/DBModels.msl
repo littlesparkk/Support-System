@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MvcCRUDDBModelStoreContainer" CdmEntityContainer="DBModel">
+    <EntitySetMapping Name="AdminSections">
+      <EntityTypeMapping TypeName="MvcCRUDDBModel.AdminSection">
+        <MappingFragment StoreEntitySet="AdminSection">
+          <ScalarProperty Name="Resolved_On" ColumnName="Resolved On" />
+          <ScalarProperty Name="Due_On" ColumnName="Due On" />
+          <ScalarProperty Name="Raised_On" ColumnName="Raised On" />
+          <ScalarProperty Name="Raised_By" ColumnName="Raised By" />
+          <ScalarProperty Name="Priority" ColumnName="Priority" />
+          <ScalarProperty Name="Severity" ColumnName="Severity" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Ticket_No" ColumnName="Ticket No" />
+          <ScalarProperty Name="AdminSectionId" ColumnName="AdminSectionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Employees">
+      <EntityTypeMapping TypeName="MvcCRUDDBModel.Employee">
+        <MappingFragment StoreEntitySet="Employee">
+          <ScalarProperty Name="Salary" ColumnName="Salary" />
+          <ScalarProperty Name="Age" ColumnName="Age" />
+          <ScalarProperty Name="Office" ColumnName="Office" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RegisterUsers">
+      <EntityTypeMapping TypeName="MvcCRUDDBModel.RegisterUser">
+        <MappingFragment StoreEntitySet="RegisterUser">
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupportStats">
+      <EntityTypeMapping TypeName="MvcCRUDDBModel.SupportStat">
+        <MappingFragment StoreEntitySet="SupportStat">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="SupportStatusId" ColumnName="SupportStatusId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SystemSections">
+      <EntityTypeMapping TypeName="MvcCRUDDBModel.SystemSection">
+        <MappingFragment StoreEntitySet="SystemSection">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="SystemSectionId" ColumnName="SystemSectionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserComments">
+      <EntityTypeMapping TypeName="MvcCRUDDBModel.UserComment">
+        <MappingFragment StoreEntitySet="UserComment">
+          <ScalarProperty Name="ReplyCommentId" ColumnName="ReplyCommentId" />
+          <ScalarProperty Name="AdminSectionId" ColumnName="AdminSectionId" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CommentText" ColumnName="CommentText" />
+          <ScalarProperty Name="CommentId" ColumnName="CommentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserManagements">
+      <EntityTypeMapping TypeName="MvcCRUDDBModel.UserManagement">
+        <MappingFragment StoreEntitySet="UserManagement">
+          <ScalarProperty Name="Activity" ColumnName="Activity" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="UserManagementId" ColumnName="UserManagementId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

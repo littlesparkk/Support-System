@@ -1,0 +1,235 @@
+﻿@*@model Asp.NETMVCCRUD.Models.AdminSection*@
+@{
+    //ViewBag.Title = "User Management";
+}
+
+<style>
+    .btnInfo {
+        width: 5cm;
+        margin: 5px;
+    }
+
+</style>
+<link href="~/css/rocket.css" />
+
+<h1><b>Welcome to Support System Application</b></h1>
+<h3>Content Info</h3>
+
+<div>
+    <div>
+        <button class="btn btn-primary btnInfo" data-toggle="modal" data-target="#InfoModal"><i class="fas fa-desktop"></i>&nbsp; Admin Section &nbsp; &nbsp; &nbsp;</button>
+    </div>
+    <div>
+        <button class="btn btn-success btnInfo" data-toggle="modal" data-target="#InfoModal"><i class="fas fa-id-card"></i>&nbsp; User Management</button>
+    </div>
+    <div>
+        <button class="btn btn-danger btnInfo" data-toggle="modal" data-target="#InfoModal"><i class="fas fa-bug"></i>&nbsp;&nbsp; System Section &nbsp;&nbsp; &nbsp;</button>
+    </div>
+    <div>
+        <button class="btn btn-dark btnInfo" data-toggle="modal" data-target="#InfoModal"><i class="fas fa-flask"></i>&nbsp;&nbsp; Support Statuses &nbsp;</button>
+    </div>
+</div>
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="InfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Save changes</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container body-content">
+    
+    <hr />
+    <footer>
+        <p>&copy; @DateTime.Now.Year - Support System Web Application-Coded by littlespark :)</p>
+    </footer>
+</div>
+
+<!--<a class="btn btn-success" style="margin-bottom:10px" onclick="PopupForm('@Url.Action("AddOrEditAdminSection","AdminSection")')"><i class="fa fa-plus"></i> Add New Suggestion</a>-->
+@*<button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" style="margin-bottom:10px"><i class="fa fa-plus"></i>
+        Add New Suggestion
+    </button>*@
+<!--<table id="adminTable" class="display">
+    <thead>
+        <tr>
+            <th>Ticket No</th>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Category</th>
+            <th>Severity</th>
+            <th>Priority</th>
+            <th>Raised By</th>
+            <th>Raised On</th>
+            <th>Due On</th>
+            <th>Resolved On</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+</table>-->
+
+<link href="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".btn-primary").click(function () {
+                $("#exampleModalLabel").prepend("Admin Section Info");
+                $("#modal-body").prepend("Admin Section is used to administer ongoing issues and tickets,dont forget to leave comment and reply.");
+                $(".btn-secondary").click(function () {
+                    $("#exampleModalLabel").empty();
+                    $("#modal-body").empty();
+                });
+            });
+            $(".btn-success").click(function () {
+                $("#exampleModalLabel").prepend("User Management Info");
+                $("#modal-body").prepend("User Management Section is used to administer users and their informations.");
+                $(".btn-secondary").click(function () {
+                    $("#exampleModalLabel").empty();
+                    $("#modal-body").empty();
+                });
+            });
+            $(".btn-danger").click(function () {
+                $("#exampleModalLabel").prepend("System Section Info");
+                $("#modal-body").prepend("System Section is used to track ongoing issues in the system.");
+                $(".btn-secondary").click(function () {
+                    $("#exampleModalLabel").empty();
+                    $("#modal-body").empty();
+                });
+            });
+            $(".btn-dark").click(function () {
+                $("#exampleModalLabel").prepend("Support Status Info");
+                $("#modal-body").prepend("Support Statuses Section is used to track bugs and the dates on which they are supposed to be resolved.");
+                $(".btn-secondary").click(function () {
+                    $("#exampleModalLabel").empty();
+                    $("#modal-body").empty();
+                });
+            });
+        });
+    </script>
+    @*<script>
+            var Popup,dataTable
+            $(document).ready(function () {
+                dataTable = $("#adminTable").DataTable({
+                    "ajax": {
+                        "url": "/AdminSection/GetAdminSectionData",
+                        "type": "GET",
+                        "datatype": "json"
+                    },
+                    "columns": [
+                        { "data": "Ticket_No" },
+                        { "data": "Title" },
+                        { "data": "Status" },
+                        { "data": "Category" },
+                        { "data": "Severity" },
+                        { "data": "Priority" },
+                        { "data": "Raised_By" },
+                        { "data": "Raised_On" },
+                        { "data": "Due_On" },
+                        { "data": "Resolved_On" },
+
+                        {
+                            "data": "AdminSectionId", "render": function (data) {
+
+                                //Delete
+                                return "<a class='btn btn-info btn-sm' onclick=PopupForm('@Url.Action("AddOrEditAdminSection","AdminSection")/"+ data + "')><i class='fa fa-edit'></i> Edit</a><a class='btn btn-danger btn-sm' style='margin-left:5px' onclick=Delete(" + data + ")><i class='fa fa-trash'></i> Delete</a>"
+
+                                //return "<a class='btn btn-info btn-sm'><i class='fa fa-edit'></i> Edit</a><a class='btn btn-danger btn-sm' style='margin-left:5px'><i class='fa fa-trash'></i> Delete</a>"
+
+                                //Update
+                                //return "<a class='btn btn-info btn-sm' onclick=PopupForm('@Url.Action("AddOrEdit","Employee")/" + data + "')><i class='fa fa-edit'></i> Edit</a><a class='btn btn-danger btn-sm' style='margin-left:5px'><i class='fa fa-trash'></i> Delete</a>"
+
+                        },
+                            "orderable": false,
+                            "searchUrlble": false,
+                                "width":"150px"
+                        }
+                    ],
+                    "language": {
+                        "emptyTable": "No data found,Please click on <b>Add New Suggestion</b> Button to add new suggestion"
+                    }
+                });
+            });
+
+            function PopupForm(url) {
+                var formDiv = $('<div/>');
+                $.get(url)
+                    .done(function (response) {
+                        formDiv.html(response);
+
+                        Popup = formDiv.dialog({
+                            autoOpen: true,
+                            resizable: false,
+                            title: 'Fill Section Details',
+                            height: 400,
+                            width: 350,
+                            close: function () {
+                                Popup.dialog('destroy').remove();
+                            }
+                        });
+                    });
+            }
+
+            function SubmitForm(form) {
+                $.validator.unobtrusive.parse(form);
+                if ($(form).valid()) {
+                    $.ajax({
+                        type: "POST",
+                        url: form.action,
+                        data: $(form).serialize(),
+                        success: function (data) {
+                            if (data.success) {
+                                Popup.dialog('close');
+                                dataTable.ajax.reload();
+
+                                $.notify(data.message, {
+                                    globalPosition: "top center",
+                                    className: "success"
+                                })
+                            }
+                        }
+                    });
+                }
+                return false;
+            }
+            function Delete(id) {
+                if (confirm("Are You Sure You Want To Delete This System Section?")) {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("Delete","AdminSection")/' + id,
+                        success: function (data) {
+                            if (data.success) {
+                                dataTable.ajax.reload();
+
+                                $.notify(data.message, {
+                                    globalPosition: "top center",
+                                    className: "success"
+                                })
+                            }
+                        }
+                    })
+                }
+            }
+        </script>*@
+}
+

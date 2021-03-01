@@ -1,0 +1,181 @@
+﻿@model Asp.NETMVCCRUD.Models.SupportStat
+@{
+    //ViewBag.Title = "User Management";
+}
+
+<link href="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<h1>Support Statuses</h1>
+
+<a class="btn btn-success" style="margin-bottom:10px" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Add New Support Status</a>
+@*<a class="btn btn-success" style="margin-bottom:10px" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Add New Suggestion</a>*@
+<table id="supportTable" class="display">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th></th>
+        </tr>
+    </thead>
+</table>
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                <h2>Add New Support Status</h2>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("AddOrEditSupportStatus", "SupportStatus", FormMethod.Post, new { onsubmit = "return SubmitForm(this)" }))
+                {
+                    @Html.HiddenFor(model => model.SupportStatusId)
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Description, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Submit" class="btn btn-primary" />
+                        <input type="reset" value="Reset" class="btn btn-warning" />
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<link href="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    
+    @*<script src="~/Scripts/jquery-3.0.0.min.js"></script>*@
+
+
+
+    <script>
+        var Popup,dataTable
+        $(document).ready(function () {
+            dataTable = $("#supportTable").DataTable({
+                "ajax": {
+                    "url": "/SupportStatus/GetSupportStatusData",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "Name" },
+                    { "data": "Description" },
+                    {
+                        "data": "SupportStatusId", "render": function (data) {
+
+                            //Delete
+                            //return "<a class='btn btn-info btn-sm' data-toggle='modal' data-target='#myModalEdit'/" + data + "')><i class='fa fa-edit'></i> Edit</a><a class='btn btn-danger btn-sm' style='margin-left:5px' onclick=Delete(" + data + ")><i class='fa fa-trash'></i> Delete</a>"
+                            //return "<a class='btn btn-info btn-sm' onclick=PopupForm('@Url.Action("AddOrEditSupportStatus","SupportStatus")/"+ data + "')><i class='fa fa-edit'></i> Edit</a><a class='btn btn-danger btn-sm' style='margin-left:5px' onclick=Delete(" + data + ")><i class='fa fa-trash'></i> Delete</a>"
+                            return "<a class='btn btn-info btn-sm' href='/SupportStatus/AddOrEditSupportStatus/?id=" + data + "')><i class='fa fa-edit'></i> Edit</a><a class='btn btn-danger btn-sm' style='margin-left:5px' onclick=Delete(" + data + ")><i class='fa fa-trash'></i> Delete</a>"
+
+                            //return "<a class='btn btn-info btn-sm'><i class='fa fa-edit'></i> Edit</a><a class='btn btn-danger btn-sm' style='margin-left:5px'><i class='fa fa-trash'></i> Delete</a>"
+
+                            //Update
+                            //return "<a class='btn btn-info btn-sm' onclick=PopupForm('@Url.Action("AddOrEdit","Employee")/" + data + "')><i class='fa fa-edit'></i> Edit</a><a class='btn btn-danger btn-sm' style='margin-left:5px'><i class='fa fa-trash'></i> Delete</a>"
+
+                    },
+                        "orderable": false,
+                        "searchUrlble": false,
+                            "width":"150px"
+                    }
+                ],
+                "language": {
+                    "emptyTable": "No data found,Please click on <b>Add New Support Status</b> Button to add new support status"
+                }
+            });
+        });
+
+        function PopupForm(url) {
+            var formDiv = $('<div/>');
+            $.get(url)
+                .done(function (response) {
+                    formDiv.html(response);
+
+
+                    Popup = formDiv.dialog({
+                        autoOpen: true,
+                        resizable: false,
+                        title: 'Fill Section Details',
+                        height: 400,
+                        width: 350,
+                        close: function () {
+                            Popup.dialog('destroy').remove();
+                        }
+                    });
+
+                    //Popup = $("#myModal").modal('show',{
+                    //    autoOpen: true,
+                    //    resizable: false,
+                    //    title: 'Fill Section Details',
+                    //    height: 400,
+                    //    width: 350,
+                    //    close: function () {
+                    //        Popup.dialog('destroy').remove();
+                    //    }
+                    //});
+                });
+        }
+
+        function SubmitForm(form) {
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        if (data.success) {
+                            Popup.dialog('close');
+                            dataTable.ajax.reload();
+
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+                        }
+                    }
+                });
+            }
+            return false;
+        }
+        function Delete(id) {
+            if (confirm("Are You Sure You Want To Delete This Support Section?")) {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Delete","SupportStatus")/' + id,
+                    success: function (data) {
+                        if (data.success) {
+                            dataTable.ajax.reload();
+
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+                        }
+                    }
+                })
+            }
+        }
+    </script>
+}
+
